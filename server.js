@@ -1,5 +1,7 @@
 const express = require("express")
-const cors = require("cors");
+const http = require("http")
+const cors = require("cors")
+const socketIo = require("socket.io")
 
 const db = require("./config/config")
 const PORT = process.env.PORT || 3000;
@@ -11,15 +13,21 @@ app.use(express.urlencoded({ extended: true }));
 
 const {authRoutes,userRoutes} = require("./routes/index");
 
+const {notificationHandler} = require("./handlers/index")
+
 
 
 app.use("/api",authRoutes)
 app.use("/api",userRoutes)
 
 
+const server = http.createServer(app)
+
+const conn = socketIo(server)
+notificationHandler.onNewConnection(conn)
 
 
-const server = app.listen(PORT, ()=> console.log("Server is listening at: ",PORT))
+server.listen(PORT, ()=> console.log("Server is listening at: ",PORT))
 
 handleExit = async (signal) => {
     console.log(`Received ${signal}. Close my server properly.`);
@@ -28,7 +36,7 @@ handleExit = async (signal) => {
     server.close(() => {
       console.log('Process terminated')
     })
-  };
-  process.on("SIGINT", handleExit);
-  process.on("SIGQUIT", handleExit);
-  process.on("SIGTERM", handleExit);
+};
+process.on("SIGINT", handleExit);
+process.on("SIGQUIT", handleExit);
+process.on("SIGTERM", handleExit);
