@@ -1,0 +1,25 @@
+{
+  "name": "ScavengerHunt-Backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start":"nodemon server.js",
+    "startdev":"set NODE_ENV=development&& nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/biswajit-debnath/ScavengerHunt-Backend",
+  "author": "Biswajit Debnath",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
