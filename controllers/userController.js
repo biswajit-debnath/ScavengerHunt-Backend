@@ -26,8 +26,22 @@ const getAllUsers = async (req, res) => {
         res.status(err.status).send(err.message)
     }
 }
+    
+const getUsersByPin = async (req, res) => {
+    try{
+        const {pin} = req.params
+        const users = await userService.getUsersByPin(pin)
+
+        res.status(200).json(users)
+
+    }catch(err){
+        console.log(err)
+        res.status(err.status).send(err.message)
+    }
+}
 
 module.exports ={
     getUserInfoById,
-    getAllUsers
+    getAllUsers,
+    getUsersByPin
 }

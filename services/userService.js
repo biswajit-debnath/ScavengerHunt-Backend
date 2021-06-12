@@ -18,9 +18,19 @@ const getAllUsers =async (adminId)=> {
     return res.rows;
 }
 
+const getUsersByPin =async (pin)=> {
+    const res =await db.query(
+        `select userId,institutionName,branchName from user_details where userId In (select userId from pincode_to_user where pincode = ($1))`,
+        [pin])
+    if(res.rows.length == 0)
+        throw {status:404, message: "No user found"}
+    return res.rows;
+}
+
 
 
 module.exports= {
     getUserInfoById,
-    getAllUsers
+    getAllUsers,
+    getUsersByPin
 }
