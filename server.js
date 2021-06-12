@@ -9,11 +9,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const {authRoutes} = require("./routes/index");
+const {authRoutes,userRoutes} = require("./routes/index");
 
 
 
 app.use("/api",authRoutes)
+app.use("/api",userRoutes)
+
+
 
 
 const server = app.listen(PORT, ()=> console.log("Server is listening at: ",PORT))

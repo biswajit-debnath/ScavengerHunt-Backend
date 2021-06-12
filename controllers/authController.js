@@ -5,7 +5,7 @@ const {authService} = require("./../services")
 const login =async (req, res) => {
     try{
         const {username,password} = req.body
-        const userData =await authService.getUserByUserName(username);
+        const userData =await authService.getUserByUserName(username)
         
         const validPass = await bcrypt.compare(password, userData.password)
         if(!validPass)
@@ -17,10 +17,10 @@ const login =async (req, res) => {
         )
 
         const resData = {authToken, userName}
-        res.status(200).json(resData);
+        res.status(200).json(resData)
 
     }catch(err){
-        console.log(err);
+        console.log(err)
         res.status(err.status).send(err.message)
     }
 }
