@@ -13,10 +13,9 @@ const login =async (req, res) => {
         
         const authToken = jwt.sign(
             {userId:userData.userId},
-            'this_is_a_secret_token_that_needs_to_be_replaced_later'
+            process.env.Secret
         )
-
-        const resData = {authToken, userName}
+        const resData = {authToken, userId:userData.userid, userType:userData.usertype}
         res.status(200).json(resData)
 
     }catch(err){

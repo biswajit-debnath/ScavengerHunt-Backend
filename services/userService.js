@@ -15,6 +15,7 @@ const getAllUsers =async (adminId)=> {
         [adminId])
     if(res.rows.length == 0)
         throw {status:404, message: "No user found"}
+
     return res.rows;
 }
 
@@ -28,9 +29,20 @@ const getUsersByPin =async (pin)=> {
 }
 
 
+const getAllPincodesById =async (userId)=> {
+    let pincodeArrays=[]
+    const res =await db.query(
+        `SELECT pincode FROM pincode_to_user WHERE userId = ($1)`,
+        [userId])
+    
+    Object.values(res.rows).forEach(result=> pincodeArrays.push(result.pincode))
+    return pincodeArrays;
+}
+
 
 module.exports= {
     getUserInfoById,
     getAllUsers,
-    getUsersByPin
+    getUsersByPin,
+    getAllPincodesById
 }

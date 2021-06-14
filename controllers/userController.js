@@ -1,14 +1,16 @@
 const { userService,notificationService } = require("../services")
 const helper = require("./../helper")
-const OnlineUsers = require("./../onlineUsers")
 
 const getUserInfoById = async (req, res) => {
     try{
         const id = req.params.id
 
         const userData = await userService.getUserInfoById(id)
+        const pincodes = await userService.getAllPincodesById(id)
 
-        res.status(200).json(userData)
+        const mergedData = {...userData, pincodes}
+
+        res.status(200).json(mergedData)
 
     }catch(err){
         console.log(err)
@@ -31,16 +33,16 @@ const getAllUsers = async (req, res) => {
 const getUsersByPin = async (req, res) => {
     try{
         const {pin} = req.params
-        const dataForNotification={pin,message:"Some searched for service",timeStamp:Date.now()}
+        const dataForNotification={message:pin,timeStamp:Date.now()}
         const users = await userService.getUsersByPin(pin)
-        dataForNotification[users] = helper.extractUserIds(users);
-        //dataForNotification[users].push(1) //For admin
-        const allOnlineUserFromOurList = helper.getOnlyOnlineUsers(dataForNotification[users])
+        dataForNotification["users"] = helper.extractUserIds(users);
+        dataForNotification["users"].push(0) //For admin
+        const allOnlineUserFromOurList = helper.getOnlyOnlineUsers(dataForNotification["users"])
 
         await notificationService.storeNotification(dataForNotification)
-
+        console.log(allOnlineUserFromOurList);
         res.status(200).json(users)
-        helper.sendNotificationToAllUsers(allOnlineUserFromOurList,dataForNotification)
+        helper.sendNotificationToAllUsers(allOnlineUserFromOurList,"increment")
 
 
     }catch(err){

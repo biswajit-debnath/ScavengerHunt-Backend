@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "startdev": "set NODE_ENV=development&& nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-all-users": "node ./handlers/UserCreation.js"
   },
   "repository": "https://github.com/biswajit-debnath/ScavengerHunt-Backend",
   "author": "Biswajit Debnath",
@@ -19,7 +20,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.4",
-    "socket.io": "^4.1.2"
+    "socket.io": "^4.1.2",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
